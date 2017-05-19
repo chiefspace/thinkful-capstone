@@ -15,7 +15,7 @@ The following **required** functionality is completed:
 * [ ] User can **request technical assistance** by creating a trouble ticket.
 * [ ] technician can **create, read, update, delete computer inventory**.
 * [ ] technician can respond to user requests for technical assistance by entering a worklog entry to a trouble ticket.
-* [ ] technician can **Add three users to the database** to and from PostgreSQL database called tbay via sqlalchemy.
+* [ ] technician can **add users to the database** to and from PostgreSQL database called sargdb via sqlalchemy.
 * [ ] a user object is created on date of hire.
 * [ ] a technician can upload only one picture of computer serial number per computer object.
 * [ ] a computer object can only have one mac address.
@@ -30,7 +30,7 @@ The following **optional** features are implemented:
 * [ ] Use a [DialogFragment](http://google.com) instead of new Activity for editing items
 
 
-The following **additional** features are implemented:
+The following **additional** features are **to be** implemented:
 
 * [ ] Purchase request approval workflow [ i.e someone requests a new computer, that will trigger an email to the CAPEX committee]
 
