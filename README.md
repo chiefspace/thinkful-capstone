@@ -12,6 +12,10 @@ Time spent: **1** hours spent in total
 
 The following **required** functionality is completed:
 
+* [ ] Design / Define REST API resource methods
+* [ ] Define / separate out REST API resources from models
+* [ ] REST API resources are external representations of application endpoints, i.e. what the client sees
+* [ ] Models are internal representations of objects that are not externally exposed, i.e. the client has no reference to it
 * [ ] User can **request technical assistance** by creating a trouble ticket.
 * [ ] technician can **create, read, update, delete computer inventory**.
 * [ ] technician can respond to user requests for technical assistance by entering a worklog entry to a trouble ticket.
