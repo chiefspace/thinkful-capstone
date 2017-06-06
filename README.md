@@ -40,7 +40,7 @@ The following **additional** features are **to be** implemented:
 
 ## Mockup on Balsamiq:
 
-<img src='https://autodidactica.mybalsamiq.com/mockups/5883960.png?key=0944258a85141fb06484b669a7cf3b95451f585e' title='Supply Sergeant Mockup width='' alt='Supply Sergeant Mockup' />
+<img src='https://autodidactica.mybalsamiq.com/mockups/5883960.png?key=0944258a85141fb06484b669a7cf3b95451f585e' title='Supply Sergeant Mockup' width='' alt='Supply Sergeant Mockup' />
 
 ## Video Walkthrough 
 
