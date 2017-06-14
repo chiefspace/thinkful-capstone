@@ -8,3 +8,5 @@ app = Flask(__name__)
 
 """  Tell the app what requests its going to understand  """
 @app.route('/')
+    def home():
+        return "Hello, World!"
