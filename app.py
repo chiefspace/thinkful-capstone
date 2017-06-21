@@ -1,6 +1,6 @@
 """  Packages always start with a lower case letter  """
 """  Classes always start with a capital letter  """
-from flask import Flask
+from flask import Flask, jsonify  # Flask is with capital F for a class, jsonify is lowercase because it is a method
 from os import environ
 
 
@@ -26,7 +26,7 @@ def get_inventory(name):
 # GET /inventory
 @app.route('/inventory')
 def get_inventories():
-    pass
+    return jsonify({'inventories': inventories})
 
 # POST /store/<string:name>/item (name:, cost: )
 @app.route('/inventory/<string:name>/item', methods=['POST'])
