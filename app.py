@@ -52,8 +52,11 @@ def create_item_in_inventory(name):
     return jsonify ({'message' :'inventory not found'})
 
 # GET /inventory/<string:name>/item
-@app.route('/inventory/<string:name>/item')
+@app.route('/inventory/<string:name>/items')
 def get_item_in_inventory(name):
-    pass
+    for inventory in inventories:
+      if inventory['name'] == name:
+          return jsonify( {'items':inventory['items'] } )
+    return jsonify ({'message':'inventory not found'})
 
 app.run(host=environ['IP'], port=int(environ['PORT']))
