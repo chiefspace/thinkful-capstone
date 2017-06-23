@@ -40,7 +40,16 @@ def get_inventories():
 # POST /store/<string:name>/item (name:, cost: )
 @app.route('/inventory/<string:name>/item', methods=['POST'])
 def create_item_in_inventory(name):
-    pass
+    request_data = request.get_json()
+    for inventory in inventories:
+        if inventory['name'] == name:
+            new_item = {
+                'name': request_data['name'],
+                'cost': request_data['cost']
+            }
+            inventory['items'].append(new_item)
+            return jsonify(new_item)
+    return jsonify ({'message' :'inventory not found'})
 
 # GET /inventory/<string:name>/item
 @app.route('/inventory/<string:name>/item')
