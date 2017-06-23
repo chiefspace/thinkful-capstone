@@ -27,7 +27,10 @@ def create_inventory():
 # GET /inventory/<string:name>
 @app.route('/inventory/<string:name>')
 def get_inventory(name):
-    pass
+    for inventory in inventories:
+      if inventory['name'] == name:
+          return jsonify(inventory)
+    return jsonify ({'message': 'inventory not found'})
 
 # GET /inventory
 @app.route('/inventory')
