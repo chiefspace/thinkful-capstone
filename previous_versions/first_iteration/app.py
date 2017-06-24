@@ -51,7 +51,7 @@ def create_item_in_inventory(name):
             return jsonify(new_item)
     return jsonify ({'message' :'inventory not found'})
 
-# GET /inventory/<string:name>/item
+# GET /inventory/<string:name>/items
 @app.route('/inventory/<string:name>/items')
 def get_item_in_inventory(name):
     for inventory in inventories:
