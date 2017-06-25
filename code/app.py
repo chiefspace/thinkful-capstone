@@ -17,7 +17,10 @@ items = []
 class Item(Resource):
     """ get method for retrieving an item Resource object by name and cost """
     def get(self, name):
-        return {'item': name}
+        for item in items:
+            if item['name'] == name:
+                """ notice that we no longer need jsonify because we are using flask-restful """
+                return item
         
     """ post method for storing an item Resource object by name """
     """ The cost value is temporarily hard coded to $1.299.00 for now """
@@ -31,4 +34,4 @@ class Item(Resource):
 api.add_resource(Item, '/item/<string:name>')        
 
 """ The app.run method below starts the Flask app and binds it to port 5000 """
-app.run(port=5000)
+app.run(host='0.0.0.0', port=8080)
