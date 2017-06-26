@@ -23,6 +23,10 @@ class Item(Resource):
     """ post method for storing an item Resource object by name """
     """ The cost value is temporarily hard coded to $1.299.00 for now """
     def post(self, name):
+        if next(filter(lambda x: x['name'] == name, items), None):
+            return {'message': "An item with name '{}' already exists.".format(name)}, 400
+        
+        
         data = request.get_json()
         item = {'name': name, 'cost': data['cost']}
         items.append(item)
