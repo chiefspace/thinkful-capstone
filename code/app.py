@@ -15,7 +15,7 @@ items = []
 """ The Item Resource Class will be used to instantiate item objects """
 """ The item object will inherit properties from the Resource Class """
 class Item(Resource):
-    """ get method for retrieving an item Resource object by name and cost """
+    """ get method for retrieving an item Resource object by name """
     def get(self, name):
         item = next(filter(lambda x: x['name'] == name, items), None)
         return {'item': item}, 200 if item else 404
