@@ -21,6 +21,8 @@ class Item(Resource):
             if item['name'] == name:
                 """ notice that we no longer need jsonify because we are using flask-restful """
                 return item
+        """ Return a proper json value and error code 404 for items not found """
+        return {'item': None}, 404
         
     """ post method for storing an item Resource object by name """
     """ The cost value is temporarily hard coded to $1.299.00 for now """
