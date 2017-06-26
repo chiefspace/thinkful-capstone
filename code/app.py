@@ -30,10 +30,14 @@ class Item(Resource):
         item = {'name': name, 'cost': 1299.00}
         items.append(item)
         return item, 201
-        
+
+class ItemList(Resource):
+    def get(self):
+        return {'items': items}, 200
         
 """ The api object method below defines the endpoint for the GET item by name Resource """
-api.add_resource(Item, '/item/<string:name>')        
+api.add_resource(Item, '/item/<string:name>')
+api.add_resource(ItemList, '/items')
 
 """ The app.run method below starts the Flask app and binds it to port 5000 """
-app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=8080, debug=True)
