@@ -21,7 +21,7 @@ class Item(Resource):
             if item['name'] == name:
                 """ notice that we no longer need jsonify because we are using flask-restful """
                 return item
-        """ Return a proper json value and error code 404 for items not found """
+        """ Return a proper json value and error code 404 for item not found """
         return {'item': None}, 404
         
     """ post method for storing an item Resource object by name """
@@ -29,7 +29,7 @@ class Item(Resource):
     def post(self, name):
         item = {'name': name, 'cost': 1299.00}
         items.append(item)
-        return item
+        return item, 201
         
         
 """ The api object method below defines the endpoint for the GET item by name Resource """
