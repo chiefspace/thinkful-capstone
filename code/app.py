@@ -17,12 +17,8 @@ items = []
 class Item(Resource):
     """ get method for retrieving an item Resource object by name and cost """
     def get(self, name):
-        for item in items:
-            if item['name'] == name:
-                """ notice that we no longer need jsonify because we are using flask-restful """
-                return item
-        """ Return a proper json value and error code 404 for item not found """
-        return {'item': None}, 404
+        item = next(filter(lambda x: x['name'] == name, items), None)
+        return {'item': item}, 200 if item else 404
         
     """ post method for storing an item Resource object by name """
     """ The cost value is temporarily hard coded to $1.299.00 for now """
