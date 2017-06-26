@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
@@ -27,7 +27,8 @@ class Item(Resource):
     """ post method for storing an item Resource object by name """
     """ The cost value is temporarily hard coded to $1.299.00 for now """
     def post(self, name):
-        item = {'name': name, 'cost': 1299.00}
+        data = request.get_json()
+        item = {'name': name, 'cost': data['cost']}
         items.append(item)
         return item, 201
 
