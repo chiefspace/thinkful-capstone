@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
+from flask_jwt import JWT
 
 app = Flask(__name__)
 
