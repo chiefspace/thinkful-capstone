@@ -2,11 +2,17 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_jwt import JWT
 
+from security import authenticate, identity
+
 app = Flask(__name__)
 app.secret_key = 'secret'
 
 """ The Api works with Resources and every resource has to be a Class """
 api = Api(app) # instantiate an instance of the Api Class
+
+""" Create an instance of the JWT Class using the app object and the ... """
+""" ... authenticate and identity methods from security.py """
+jwt = JWT(app, authenticate, identity)  # /auth endpoint
 
 """ The items list below will serve as an in memroy database  """
 """ The items list will contain a list of item dictionaries """
