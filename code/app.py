@@ -35,9 +35,8 @@ class Item(Resource):
         if next(filter(lambda x: x['name'] == name, items), None):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
         
-        
         data = request.get_json()
-        item = {'name': name, 'cost': data['cost']}
+        item = {'name': name, 'cost': data['cost'], 'assignee': data['assignee']}
         items.append(item)
         return item, 201
         
@@ -47,10 +46,17 @@ class Item(Resource):
         return {'message': 'Item deleted'}
         
     def put(self, name):
-        data = request.get_json()
+        parser = reqparse.RequestParser()
+        parser.add_argument('assignee',
+            type=str,
+            required=True,
+            help="This field cannot be blank!"
+        )
+        data = parser.parse_args()
+        
         item = next(filter(lambda x: x['name'] == name, items), None)
         if item is None:
-            item = {'name': name, 'cost': data['cost']}
+            item = {'name': name, 'assignee': data['assignee']}
             items.append(item)
         else:
             item.update(data)
