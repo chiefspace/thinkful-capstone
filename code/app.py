@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
+import time
+from datetime import date
 
 from security import authenticate, identity
 
@@ -36,7 +38,13 @@ class Item(Resource):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
         
         data = request.get_json()
-        item = {'name': name, 'cost': data['cost'], 'assignee': data['assignee']}
+        item = {
+            'name': name,
+            'cost': data['cost'],
+            'assignee': data['assignee'],
+            'date_assigned': str(date.today()),
+            'previous_assignees': [(data['assignee'],str(date.today())),]
+        }
         items.append(item)
         return item, 201
         
@@ -58,8 +66,12 @@ class Item(Resource):
         if item is None:
             item = {'name': name, 'assignee': data['assignee']}
             items.append(item)
-        else:
+        elif data['assignee'] != item['assignee']:
             item.update(data)
+            item['previous_assignees'].append((item['assignee'],item['date_assigned']),)
+            item['date_assigned'] = str(date.today())
+        else:
+            return {'message': 'New assignee cannot be equal to previous assignee'}
         return item
 
 class ItemList(Resource):
