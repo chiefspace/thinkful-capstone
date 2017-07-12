@@ -2,17 +2,26 @@
 
 # Pre-work - *supply sergeant proof of concept*
 
-**** is a computer inventory and user request tracker.
+**Supply Sergeant** is a computer inventory and user request tracker.
 
 Submitted by: **Ben Altieri**
 
-Time spent: **3** hours spent in total
+Time spent: **40** hours spent in total
+
+## REST API Endpoints
+
+GET /items          Returns a list of all items in the database
+GET /item/<name>    Returns a specific item by name
+POST /item/<name>   Inserts an item into the database by item name with assignee and date assigned
+PUT /item/<name>    Updates an item by item name and new assignee name keeping previous assignee record
+DEL /item/<name>    Deletes an item by name
+POST /auth          Generates a JWT authentication token
 
 ## User Stories
 
-The following **required** functionality is completed:
+The following **required** functionality is yet to be completed:
 
-* [ ] Design / Define REST API resource methods
+* [x] Design / Define REST API resource methods
 * [ ] Define / separate out REST API resources from models
 * [ ] REST API resources are external representations of application endpoints, i.e. what the client sees
 * [ ] Models are internal representations of objects that are not externally exposed, i.e. the client has no reference to it
@@ -24,12 +33,6 @@ The following **required** functionality is completed:
 * [ ] cost of equipment purchase and any subsequent repairs / modifications will be tracked
 * [ ] each user will have a profile that lists all issued hardware and software, date of purchase.
 * [ ] Invoice .pdf files can be uploaded and related to any costs entered into the system.
-
-The following **optional** features are implemented:
-
-* [ ] Improve style of the blah blah items in the list [using a custom adapter](http://google.com)
-* [ ] Add support for completion due dates for blah blah items (and display within listview item)
-* [ ] Use a [DialogFragment](http://google.com) instead of new Activity for editing items
 
 
 The following **additional** features are **to be** implemented:
