@@ -10,12 +10,12 @@ Time spent: **40** hours spent in total
 
 ## REST API Endpoints
 
-GET /items          Returns a list of all items in the database
-GET /item/<name>    Returns a specific item by name
-POST /item/<name>   Inserts an item into the database by item name with assignee and date assigned
-PUT /item/<name>    Updates an item by item name and new assignee name keeping previous assignee record
-DEL /item/<name>    Deletes an item by name
-POST /auth          Generates a JWT authentication token
+* [x] GET /items &nbsp;&nbsp;&nbsp;&nbsp; Returns a list of all items in the database
+* [x] GET /item/<name> &nbsp;&nbsp;&nbsp;&nbsp; Returns a specific item by name
+* [x] POST /item/<name> &nbsp;&nbsp;&nbsp;&nbsp; Inserts an item into the database by item name with assignee and date assigned
+* [x] PUT /item/<name> &nbsp;&nbsp;&nbsp;&nbsp; Updates an item by item name and new assignee name keeping previous assignee record
+* [x] DEL /item/<name> &nbsp;&nbsp;&nbsp;&nbsp; Deletes an item by name
+* [x] POST /auth &nbsp;&nbsp;&nbsp;&nbsp; Generates a JWT authentication token
 
 ## User Stories
 
