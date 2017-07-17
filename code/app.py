@@ -5,6 +5,7 @@ import time
 from datetime import date
 
 from security import authenticate, identity
+from user import UserRegister
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -81,6 +82,7 @@ class ItemList(Resource):
 """ The api object method below defines the endpoint for the GET item by name Resource """
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
+api.add_resource(UserRegister, '/register')
 
 """ The app.run method below starts the Flask app and binds it to port 5000 """
 app.run(host='0.0.0.0', port=8080, debug=True)

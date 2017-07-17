@@ -1,4 +1,5 @@
 import sqlite3
+from flask_restful import Resource
 
 class User:
     def __init__(self, _id, username, password):
@@ -42,4 +43,6 @@ class User:
         connection.close()  # No need to commit because no data added
         return user
         
-        
+class UserRegister(Resource):
+    def post(self):
+        pass

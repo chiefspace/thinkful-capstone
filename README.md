@@ -16,6 +16,7 @@ Time spent: **40** hours spent in total
 * [x] PUT /item/< name > &nbsp;&nbsp;&nbsp;&nbsp; Updates an item by item name and new assignee name keeping previous assignee record
 * [x] DEL /item/< name > &nbsp;&nbsp;&nbsp;&nbsp; Deletes an item by name
 * [x] POST /auth &nbsp;&nbsp;&nbsp;&nbsp; Generates a JWT authentication token
+* [x] POST /register  To be used for user registration
 
 ## User Stories
 
