@@ -24,4 +24,22 @@ class User:
         connection.close()  # No need to commit because no data added
         return user
         
+    """ Find user by id in the database """
+    @classmethod
+    def find_by_id(cls, _id):
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+        
+        query = "SELECT * FROM users WHERE id=?"
+        result = cursor.execute(query, (_id,))  #  Single value tuple
+        
+        row = result.fetchone()
+        if row:
+            user = cls(*row)
+        else:
+            User = None
+            
+        connection.close()  # No need to commit because no data added
+        return user
+        
         
