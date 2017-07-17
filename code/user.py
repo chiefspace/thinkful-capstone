@@ -17,7 +17,7 @@ class User:
         
         row = result.fetchone()
         if row:
-            user = cls(row[0], row[1], row[2])
+            user = cls(*row)
         else:
             User = None
             
