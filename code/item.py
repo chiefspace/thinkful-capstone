@@ -60,6 +60,15 @@ class Item(Resource):
             'previous_assignees': json.dumps([(data['assignee']), str(date.today()),])
         }
 
+        try:
+            Item.insert(item)
+        except:
+            return {"message": "An error occurred while inserting an item."}, 500
+
+        return item, 201
+        
+    @classmethod
+    def insert(cls, item):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
         
@@ -76,8 +85,6 @@ class Item(Resource):
         
         connection.commit()
         connection.close()
-
-        return item, 201
         
     def delete(self, name):
 
