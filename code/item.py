@@ -4,6 +4,7 @@ from flask_jwt import jwt_required
 from flask import request
 import time
 from datetime import date
+import json
 
 
 """ 
@@ -15,14 +16,21 @@ class Item(Resource):
     """ get method for retrieving an item Resource object by name """
     @jwt_required()
     def get(self, name):
+	    item = self.find_by_name(name)
+	    if item:
+	        return item
+	    return {'message': 'Item not found'}, 404
+
+    @classmethod
+    def find_by_name(cls, name):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
-        
+
         query = "SELECT * FROM items WHERE name=?"
         result = cursor.execute(query, (name,))
         row = result.fetchone()
         connection.close()
-        
+
         if row:
             return {'item': 
                 {
@@ -33,7 +41,6 @@ class Item(Resource):
                     'previous_assignees': row[4]
                 }
             }
-        return {"message": "Item not found"}, 404
 
         
     """
@@ -41,7 +48,7 @@ class Item(Resource):
     The cost value is temporarily hard coded to $1.299.00 for now
     """
     def post(self, name):
-        if next(filter(lambda x: x['name'] == name, items), None):
+        if Item.find_by_name(name):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
         
         data = request.get_json()
@@ -50,9 +57,26 @@ class Item(Resource):
             'cost': data['cost'],
             'assignee': data['assignee'],
             'date_assigned': str(date.today()),
-            'previous_assignees': [(data['assignee'],str(date.today())),]
+            'previous_assignees': json.dumps([(data['assignee']), str(date.today()),])
         }
-        items.append(item)
+
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+        
+        query = "INSERT INTO items VALUES (?, ?, ?, ?, ?)"
+        cursor.execute(query,
+            (
+                item['name'],
+                item['cost'],
+                item['assignee'],
+                item['date_assigned'],
+                item['previous_assignees']
+            )
+        )
+        
+        connection.commit()
+        connection.close()
+
         return item, 201
         
     def delete(self, name):
