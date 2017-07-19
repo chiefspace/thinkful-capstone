@@ -38,7 +38,7 @@ class ItemModel:
         cursor = connection.cursor()
         
         query = "UPDATE items SET assignee=? WHERE name=?"
-        changed_item = cursor.execute(query, (self.name, self.assignee, self.cost))
+        changed_item = cursor.execute(query, (self.assignee, self.name))
         
         connection.commit()
         connection.close()
