@@ -67,18 +67,18 @@ class Item(Resource):
     def put(self, name):
         data = Item.parser.parse_args()
         item = ItemModel.find_by_name(name)
-        updated_item = {'name': name, 'assignee': data['assignee'], 'cost': item['cost']}
+        updated_item = ItemModel(name, data['assignee'], item.cost)
         if item is None:
             try:
-                ItemModel.insert(updated_item)
+                updated_item.insert()
             except:
                 return {"message": "An error occurred inserting the item."}
         else:
             try:
-                ItemModel.update(updated_item)
+                updated_item.update()
             except:
                 return {"message": "An error occurred updating the item."}
-        return updated_item
+        return updated_item.json()
 
 
 class ItemList(Resource):
