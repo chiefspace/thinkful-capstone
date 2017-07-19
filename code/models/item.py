@@ -7,7 +7,7 @@ class ItemModel:
         self.cost = cost
         
     def json(self):
-        return {'name': self.name, 'assignee': self.assignee}
+        return {'name': self.name, 'assignee': self.assignee, 'cost': self.cost}
         
     @classmethod
     def find_by_name(cls, name):
