@@ -1,10 +1,8 @@
 import sqlite3
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
-from flask import request
 import time
 from datetime import date
-import json
 
 
 """ 
@@ -13,10 +11,23 @@ The Item Resource Class will be used to instantiate item objects
 The item object will inherit properties from the Resource Class 
 """
 class Item(Resource):
+    TABLE_NAME = 'items'
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('assignee',
+        type=str,
+        required=True,
+        help="This field cannot be left blank!"
+    )
+    parser.add_argument('cost',
+        type=float,
+        required=False
+    )
+    
     """ get method for retrieving an item Resource object by name """
     @jwt_required()
     def get(self, name):
-	    item = self.find_by_name(name)
+	    item = Item.find_by_name(name)
 	    if item:
 	        return item
 	    return {'message': 'Item not found'}, 404
@@ -32,33 +43,19 @@ class Item(Resource):
         connection.close()
 
         if row:
-            return {'item': 
-                {
-                    'name': row[0],
-                    'cost': row[1],
-                    'assignee': row[2],
-                    'date_assigned': row[3],
-                    'previous_assignees': row[4]
-                }
-            }
+            return {'item': {'name': row[0], 'assignee': row[1], 'cost': row[2]}}
 
         
     """
     post method for storing an item Resource object by name
-    The cost value is temporarily hard coded to $1.299.00 for now
+    The cost value is temporarily hard coded to $1.299.99 for now
     """
     def post(self, name):
         if Item.find_by_name(name):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
         
-        data = request.get_json()
-        item = {
-            'name': name,
-            'cost': data['cost'],
-            'assignee': data['assignee'],
-            'date_assigned': str(date.today()),
-            'previous_assignees': json.dumps([(data['assignee']), str(date.today()),])
-        }
+        data = Item.parser.parse_args()
+        item = {'name': name, 'assignee': data['assignee'], 'cost': data['cost']}
 
         try:
             Item.insert(item)
@@ -72,16 +69,8 @@ class Item(Resource):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
         
-        query = "INSERT INTO items VALUES (?, ?, ?, ?, ?)"
-        cursor.execute(query,
-            (
-                item['name'],
-                item['cost'],
-                item['assignee'],
-                item['date_assigned'],
-                item['previous_assignees']
-            )
-        )
+        query = "INSERT INTO items VALUES (?, ?, ?)"
+        cursor.execute(query, (item['name'], item['assignee'], item['cost']))
         
         connection.commit()
         connection.close()
@@ -100,26 +89,49 @@ class Item(Resource):
         return {'message': 'Item deleted'}
         
     def put(self, name):
-        parser = reqparse.RequestParser()
-        parser.add_argument('assignee',
-            type=str,
-            required=True,
-            help="This field cannot be blank!"
-        )
-        data = parser.parse_args()
-        
-        item = next(filter(lambda x: x['name'] == name, items), None)
+        data = Item.parser.parse_args()
+        item = Item.find_by_name(name)
+        updated_item = {'name': name, 'assignee': data['assignee'], 'cost': item['cost']}
         if item is None:
-            item = {'name': name, 'assignee': data['assignee']}
-            items.append(item)
-        elif data['assignee'] != item['assignee']:
-            item.update(data)
-            item['previous_assignees'].append((item['assignee'],item['date_assigned']),)
-            item['date_assigned'] = str(date.today())
+            try:
+                Item.insert(updated_item)
+            except:
+                return {"message": "An error occurred inserting the item."}
         else:
-            return {'message': 'New assignee cannot be equal to previous assignee'}
-        return item
+            try:
+                Item.update(updated_item)
+            except:
+                return {"message": "An error occurred updating the item."}
+        return updated_item
+
+        
+    
+    @classmethod
+    def update(cls, item):
+
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+        
+        query = "UPDATE items SET assignee=? WHERE name=?"
+        changed_item = cursor.execute(query, (item['assignee'], item['name']))
+        
+        connection.commit()
+        connection.close()
+        
+        return changed_item
 
 class ItemList(Resource):
+    TABLE_NAME = 'items'
+
     def get(self):
-        return {'items': items}, 200
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM {table}".format(table=self.TABLE_NAME)
+        result = cursor.execute(query)
+        items = []
+        for row in result:
+            items.append({'name': row[0], 'assignee': row[1], 'cost': row[2]})
+        connection.close()
+
+        return {'items': items}
