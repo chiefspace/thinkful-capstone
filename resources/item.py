@@ -1,8 +1,7 @@
 import sqlite3
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
-import time
-from datetime import date
+from models.item import ItemModel
 
 
 """ 
@@ -27,23 +26,10 @@ class Item(Resource):
     """ get method for retrieving an item Resource object by name """
     @jwt_required()
     def get(self, name):
-	    item = Item.find_by_name(name)
+	    item = ItemModel.find_by_name(name)
 	    if item:
 	        return item
 	    return {'message': 'Item not found'}, 404
-
-    @classmethod
-    def find_by_name(cls, name):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "SELECT * FROM items WHERE name=?"
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-        connection.close()
-
-        if row:
-            return {'item': {'name': row[0], 'assignee': row[1], 'cost': row[2]}}
 
         
     """
@@ -51,29 +37,18 @@ class Item(Resource):
     The cost value is temporarily hard coded to $1.299.99 for now
     """
     def post(self, name):
-        if Item.find_by_name(name):
+        if ItemModel.find_by_name(name):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
         
         data = Item.parser.parse_args()
         item = {'name': name, 'assignee': data['assignee'], 'cost': data['cost']}
 
         try:
-            Item.insert(item)
+            ItemModel.insert(item)
         except:
             return {"message": "An error occurred while inserting an item."}, 500
 
         return item, 201
-        
-    @classmethod
-    def insert(cls, item):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        
-        query = "INSERT INTO items VALUES (?, ?, ?)"
-        cursor.execute(query, (item['name'], item['assignee'], item['cost']))
-        
-        connection.commit()
-        connection.close()
         
     def delete(self, name):
 
@@ -90,35 +65,20 @@ class Item(Resource):
         
     def put(self, name):
         data = Item.parser.parse_args()
-        item = Item.find_by_name(name)
+        item = ItemModel.find_by_name(name)
         updated_item = {'name': name, 'assignee': data['assignee'], 'cost': item['cost']}
         if item is None:
             try:
-                Item.insert(updated_item)
+                ItemModel.insert(updated_item)
             except:
                 return {"message": "An error occurred inserting the item."}
         else:
             try:
-                Item.update(updated_item)
+                ItemModel.update(updated_item)
             except:
                 return {"message": "An error occurred updating the item."}
         return updated_item
 
-        
-    
-    @classmethod
-    def update(cls, item):
-
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        
-        query = "UPDATE items SET assignee=? WHERE name=?"
-        changed_item = cursor.execute(query, (item['assignee'], item['name']))
-        
-        connection.commit()
-        connection.close()
-        
-        return changed_item
 
 class ItemList(Resource):
     TABLE_NAME = 'items'
