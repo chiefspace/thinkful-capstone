@@ -41,10 +41,11 @@ class Item(Resource):
             return {'message': "An item with name '{}' already exists.".format(name)}, 400
         
         data = Item.parser.parse_args()
-        item = {'name': name, 'assignee': data['assignee'], 'cost': data['cost']}
+        
+        item = ItemModel(name, data['assignee'], data['cost'])
 
         try:
-            ItemModel.insert(item)
+            item.insert()
         except:
             return {"message": "An error occurred while inserting an item."}, 500
 
