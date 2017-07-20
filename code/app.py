@@ -31,4 +31,6 @@ api.add_resource(UserRegister, '/register')
 
 """ The app.run method below starts the Flask app and binds it to port 5000 """
 if __name__ == '__main__':
+    from db import db
+    db.init_app(app)
     app.run(host='0.0.0.0', port=8080, debug=True)
