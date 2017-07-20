@@ -7,6 +7,7 @@ from resources.user import UserRegister
 from resources.item import Item, ItemList
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # turns off Flask's SQLAlchemy mod tracker
 app.secret_key = 'secret'
 
 """ The Api works with Resources and every resource has to be a Class """
