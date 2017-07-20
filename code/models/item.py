@@ -1,6 +1,7 @@
 import sqlite3
+from db import db
 
-class ItemModel:
+class ItemModel(db.Model):
     def __init__(self, name, assignee, cost):
         self.name = name
         self.assignee = assignee
