@@ -72,4 +72,5 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
+        """ The use of map below is a mapping of funtions to elements """
         return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
