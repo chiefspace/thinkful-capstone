@@ -6,7 +6,7 @@
 
 Submitted by: **Ben Altieri**
 
-Time spent: **40** hours spent in total
+Time spent: **60** hours spent in total
 
 ## REST API Endpoints
 
