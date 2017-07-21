@@ -8,10 +8,14 @@ class ItemModel(db.Model):
     assignee = db.Column(db.String(80))
     cost = db.Column(db.Float(precision=2))
     
-    def __init__(self, name, assignee, cost):
+    inventory_id = db.Column(db.Integer, db.ForeignKey('inventories.id'))
+    inventory = db.relationship('InventoryModel')
+    
+    def __init__(self, name, assignee, cost, inventory_id):
         self.name = name
         self.assignee = assignee
         self.cost = cost
+        self.inventory_id = inventory_id
         
     def json(self):
         return {'name': self.name, 'assignee': self.assignee, 'cost': self.cost}

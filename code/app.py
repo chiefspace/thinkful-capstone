@@ -5,6 +5,7 @@ from flask_jwt import JWT
 from security import authenticate, identity
 from resources.user import UserRegister
 from resources.item import Item, ItemList
+from resources.inventory import Inventory, InventoryList
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -14,9 +15,12 @@ app.secret_key = 'secret'
 """ The Api works with Resources and every resource has to be a Class """
 api = Api(app) # instantiate an instance of the Api Class
 
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 """ 
-Create an instance of the JWT Class using the app object and the ...
+Create an instance of the JWT Class using the app object and the
 authenticate and identity methods from security.py 
 """
 jwt = JWT(app, authenticate, identity)  # /auth endpoint
@@ -26,8 +30,10 @@ jwt = JWT(app, authenticate, identity)  # /auth endpoint
 The api object method below defines the endpoint ... 
 for the GET item by name Resource
 """
+api.add_resource(Inventory, '/inventory/<string:name>')
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
+api.add_resource(InventoryList, '/inventories')
 api.add_resource(UserRegister, '/register')
 
 

@@ -19,6 +19,11 @@ class Item(Resource):
         type=float,
         required=False
     )
+    parser.add_argument('inventory_id',
+        type=int,
+        required=True,
+        help="Every item needs an inventory id."
+    )
     
     """ get method for retrieving an item Resource object by name """
     @jwt_required()
@@ -39,7 +44,8 @@ class Item(Resource):
         
         data = Item.parser.parse_args()
         
-        item = ItemModel(name, data['assignee'], data['cost'])
+        item = ItemModel(name, data['assignee'], data['cost'], data['inventory_id'])
+#       item = ItemModel(name, **data) 
 
         try:
             item.save_to_db()
@@ -61,7 +67,8 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
 
         if item is None:
-            item = ItemModel(name, data['assignee'], data['cost'])
+            item = ItemModel(name, data['assignee'], data['cost'], data['inventory_id'])
+#           item = ItemModel(name, **data)            
         else:
             item.assignee = data['assignee']
             
