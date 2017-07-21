@@ -16,7 +16,11 @@ Time spent: **40** hours spent in total
 * [x] PUT /item/< name > &nbsp;&nbsp;&nbsp;&nbsp; Updates an item by item name and new assignee name keeping previous assignee record
 * [x] DEL /item/< name > &nbsp;&nbsp;&nbsp;&nbsp; Deletes an item by name
 * [x] POST /auth &nbsp;&nbsp;&nbsp;&nbsp; Generates a JWT authentication token
-* [x] POST /register  To be used for user registration
+* [x] POST /register &nbsp;&nbsp;&nbsp;&nbsp; For user registration
+* [x] GET /inventory/< name >  &nbsp;&nbsp;&nbsp;&nbsp; Get an inventory by name
+* [x] POST /inventory/< name >  &nbsp;&nbsp;&nbsp;&nbsp; Create an inventory by name
+* [x] DELETE /inventory/< name >  &nbsp;&nbsp;&nbsp;&nbsp; Delete an inventory by name
+* [x] GET /inventories  &nbsp;&nbsp;&nbsp;&nbsp; Retrieve a list of all inventories in the system
 
 ## User Stories
 
