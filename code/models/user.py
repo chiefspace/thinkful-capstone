@@ -1,5 +1,6 @@
 import sqlite3
 from db import db
+from flask import session
 
 class UserModel(db.Model):
     __tablename__ = 'users'
@@ -11,6 +12,12 @@ class UserModel(db.Model):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        
+    def __str__(self):
+        return "UserModel(id='%s')" %(self.id)
+        
+    def get(self, id):
+        return {"username": self.username}
     
     """ Find user by username in the database """
     @classmethod
@@ -23,5 +30,5 @@ class UserModel(db.Model):
         
     """ Find user by id in the database """
     @classmethod
-    def find_by_id(cls, _id):
+    def find_by_id(cls, id):
         return cls.query.filter_by(id=_id).first()
