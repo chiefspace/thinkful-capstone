@@ -1,4 +1,4 @@
-from db import db
+from supplysergeant.db import db
 
 class InventoryModel(db.Model):
     __tablename__ = 'inventories'

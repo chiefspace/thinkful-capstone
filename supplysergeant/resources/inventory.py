@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from models.inventory import InventoryModel
+from supplysergeant.models.inventory import InventoryModel
 
 class Inventory(Resource):
     def get(self, name):
