@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddItem</title>
+</head>
+<body>
+    <h1>Add an item</h1>
+
+    <form method="POST" action="/item">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }} {{ form.name(size=20) }}
+        {{ form.assignee.label }} {{ form.assignee(size=20) }}
+        {{ form.cost.label }} {{ form.cost(size=10) }}
+        <input type="submit" value="AddItem">
+    </form>
+</body>
+</html>

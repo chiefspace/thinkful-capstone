@@ -4,15 +4,15 @@ from flask_restful import Api
 
 from flask_login import LoginManager, login_user, login_required, logout_user
 
-from supplysergeant.resources.item import Item, ItemList
-from supplysergeant.resources.inventory import Inventory, InventoryList
 from supplysergeant.db import db
 from supplysergeant.models.user import User
+from supplysergeant.models.item import ItemModel
+from supplysergeant.models.inventory import InventoryModel
 
 from supplysergeant import app
-from supplysergeant import api
 
-from supplysergeant.forms import SignupForm
+from supplysergeant.forms import SignupForm, AddItemForm
+import uuid
 
 
 @app.before_first_request
@@ -29,10 +29,6 @@ login_manager.init_app(app)
 The api object methods below define the endpoints ... 
 for the GET methods by name Resource
 """
-api.add_resource(Inventory, '/inventory/<string:name>')
-api.add_resource(Item, '/item/<string:name>')
-api.add_resource(ItemList, '/items')
-api.add_resource(InventoryList, '/inventories')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -90,6 +86,27 @@ def login():
 def logout():
     logout_user()
     return "Logged out"
+    
+@app.route('/item', methods=['GET', 'POST'])
+@login_required
+def AddItem():
+    form = AddItemForm()
+
+    if request.method == 'GET':
+        return render_template('item.html', form=form)
+    elif request.method == 'POST':
+        if form.validate_on_submit():
+            if ItemModel.query.filter_by(name=form.name.data).first():
+                return "Item already exists"
+            else:
+                _id = str(uuid.uuid4())
+                new_item = ItemModel(form.name.data, form.assignee.data, form.cost.data, _id)
+                db.session.add(new_item)
+                db.session.commit()
+
+                return "New item added!!!"        
+        else:
+            return "Form didn't validate"
     
 ##############
 
