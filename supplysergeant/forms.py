@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, SubmitField, DecimalField
+from wtforms import StringField, PasswordField, SubmitField, DecimalField, SelectField
 from wtforms.validators import Email, DataRequired
 
 class SignupForm(Form):
@@ -19,4 +19,7 @@ class AddItemForm(Form):
     cost = DecimalField(
                 'cost', places=2, rounding=None, use_locale=False,
                 validators=[DataRequired()])
+    inventory_name = SelectField('Inventory Name', choices=[
+        ('laptops', 'Laptops'), ('desktops', 'Desktops'), ('phones', 'Phones'), 
+        ('monitors', 'Monitors')])
     submit = SubmitField("Add Item")

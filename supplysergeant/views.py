@@ -1,6 +1,5 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for
-from flask_restful import Api
 
 from flask_login import LoginManager, login_user, login_required, logout_user
 
@@ -12,7 +11,6 @@ from supplysergeant.models.inventory import InventoryModel
 from supplysergeant import app
 
 from supplysergeant.forms import SignupForm, AddItemForm
-import uuid
 
 
 @app.before_first_request
@@ -87,7 +85,7 @@ def logout():
     logout_user()
     return "Logged out"
     
-@app.route('/item', methods=['GET', 'POST'])
+@app.route('/item/add', methods=['GET', 'POST'])
 @login_required
 def AddItem():
     form = AddItemForm()
@@ -99,8 +97,7 @@ def AddItem():
             if ItemModel.query.filter_by(name=form.name.data).first():
                 return "Item already exists"
             else:
-                _id = str(uuid.uuid4())
-                new_item = ItemModel(form.name.data, form.assignee.data, form.cost.data, _id)
+                new_item = ItemModel(form.name.data, form.assignee.data, form.cost.data, form.inventory_name.data)
                 db.session.add(new_item)
                 db.session.commit()
 
